@@ -1,9 +1,9 @@
 {  
 	"id": "{FB2F6C69-06EC-0BAF-E4FF-6B542508086D}",  
 	"author": "Swen Babenschneider",  
-	"name": "BlueIris",  
+	"name": "BlueIris Module",  
 	"url": "babenschneider.net",
-	"version": "1.0",  
+	"version": "2.0.0.0",  
 	"build": 1,  
-	"date": 1553929846  
+	"date": 1641347233 
 }
