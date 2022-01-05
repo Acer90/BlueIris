@@ -16,29 +16,17 @@ Alle meine Module unter: https://github.com/Acer90/SymconModule
 
 ## 1. Funktionsumfang
 
-- __SymconJSLive__ ([Dokumentation](SymconJSLive))  
-	Splitter für alle JSLive Module
+- __SymconBlueIrisCam__ ([Dokumentation](SymconBlueIrisCam))  
+    Liest Informationen aus der BlueIris Kamera Software aus.
 	
-- __SymconJSLiveChart__ ([Dokumentation](SymconJSLiveChart))  
-	Modul zum erstellen von Balken- und Liniendiagrammen
+- __SymconBlueIrisConfigurator__ ([Dokumentation](SymconBlueIrisConfigurator))  
+    Ermöglicht es Kamera-Instancen einfach in Symcon zu erstellen
 	
-- __SymconJSLiveChartRadar__ ([Dokumentation](SymconJSLiveChartRadar))  
-	Modul zum erstellen von Radardiagrammen
+- __SymconBlueIrisGateway__ ([Dokumentation](SymconBlueIrisGateway))  
+    Dient als Gateway zwischen den Child-Instancen und BlueIris
 	
-- __SymconJSLiveColorPicker__ ([Dokumentation](SymconJSLiveColorPicker))  
-	Modul zum erstellen von Colorpicker
-	
-- __SymconJSLiveCustom__ ([Dokumentation](SymconJSLiveCustom))  
-	Modul zum erstellen von Eigner Javasriptausgaben auf basis von JSLive
-	
-- __SymconJSLiveDoughnutPie__ ([Dokumentation](SymconJSLiveDoughnutPie))  
-	Modul zum erstellen von Donat- und Tortendiagrammen
-	
-- __SymconJSLiveGauge__ ([Dokumentation](SymconJSLiveGauge))  
-	Modul zum erstellen von animierte Messinstrumente(Gauges)
-	
-- __SymconJSLiveProgressbar__ ([Dokumentation](SymconJSLiveProgressbar))  
-	Modul zum erstellen von anpassbaren Progressbars
+- __SymconBlueIrisSystem__ ([Dokumentation](SymconBlueIrisSystem))  
+    Liest Informationen des BlueIris Servers aus.
 
 ## 2. Voraussetzungen
 
