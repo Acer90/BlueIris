@@ -15,73 +15,75 @@
             $this->RegisterPropertyBoolean("PTZ", false);
             $this->RegisterPropertyBoolean("showFPS", false);
         }
-
         public function ApplyChanges()
         {
             //Never delete this line!
             parent::ApplyChanges();
             $this->SetReceiveDataFilter('.*sname\\\":[ \\\"]*(' . $this->ReadPropertyString("ShortName") . '|0)[\\\”]*.*');
 
+            $this->RegisterVariableBoolean("isTriggered", $this->Translate("Triggered"), "~Switch", 3);
+            $this->RegisterVariableBoolean("isMotion", $this->Translate("Motion"), "~Switch", 2);
+
             //create variables
-            $this->RegisterVariableBoolean("isAlerting",  $this->Translate("Alert"), "~Switch", 1);
-            $this->RegisterVariableBoolean("isMotion",  $this->Translate("Motion"), "~Switch", 2);
-            $this->RegisterVariableBoolean("isTriggered",  $this->Translate("Triggered"), "~Switch", 3);
-            $this->RegisterVariableBoolean("isRecording",  $this->Translate("Recording"), "~Switch", 4);
+            if(!$this->ReadPropertyString("ShortName") == "Index" && !$this->ReadPropertyString("ShortName") == "@Index") {
+                $this->RegisterVariableBoolean("isAlerting", $this->Translate("Alert"), "~Switch", 1);
+                $this->RegisterVariableBoolean("isRecording", $this->Translate("Recording"), "~Switch", 4);
+                $this->RegisterVariableBoolean("isOnline", $this->Translate("Online"), "~Switch", 90);
+                $this->RegisterVariableBoolean("isEnabled", $this->Translate("Enabled"), "~Switch", 90);
+                $this->RegisterVariableBoolean("isPaused", $this->Translate("Pause"), "~Switch", 91);
+                $this->RegisterVariableBoolean("isNoSignal", $this->Translate("NoSignal"), "~Switch", 92);
 
-            $this->RegisterVariableBoolean("isOnline",  $this->Translate("Online"), "~Switch", 90);
-            $this->RegisterVariableBoolean("isEnabled",  $this->Translate("Enabled"), "~Switch", 90);
-            $this->RegisterVariableBoolean("isPaused",  $this->Translate("Pause"), "~Switch", 91);
-            $this->RegisterVariableBoolean("isNoSignal",  $this->Translate("NoSignal"), "~Switch", 92);
+                $this->EnableAction("isEnabled");
+                $this->EnableAction("isPaused");
+                $this->EnableAction("isTriggered");
 
-            $this->EnableAction("isTriggered");
-            $this->EnableAction("isEnabled");
-            $this->EnableAction("isPaused");
+                if ($this->ReadPropertyBoolean("PTZ")) {
+                    if (!IPS_VariableProfileExists("BlueIris.Preset")) {
+                        IPS_CreateVariableProfile("BlueIris.Preset", 1);
+                        IPS_SetVariableProfileAssociation("BlueIris.Preset", 101, $this->Translate("PTZ-Preset") . " 1", "", 0x00ff00);
+                        IPS_SetVariableProfileAssociation("BlueIris.Preset", 102, $this->Translate("PTZ-Preset") . " 2", "", 0x00ff00);
+                        IPS_SetVariableProfileAssociation("BlueIris.Preset", 103, $this->Translate("PTZ-Preset") . " 3", "", 0x00ff00);
+                        IPS_SetVariableProfileAssociation("BlueIris.Preset", 104, $this->Translate("PTZ-Preset") . " 4", "", 0x00ff00);
+                        IPS_SetVariableProfileAssociation("BlueIris.Preset", 105, $this->Translate("PTZ-Preset") . " 5", "", 0x00ff00);
+                        IPS_SetVariableProfileAssociation("BlueIris.Preset", 106, $this->Translate("PTZ-Preset") . " 6", "", 0x00ff00);
+                        IPS_SetVariableProfileAssociation("BlueIris.Preset", 107, $this->Translate("PTZ-Preset") . " 7", "", 0x00ff00);
+                        IPS_SetVariableProfileAssociation("BlueIris.Preset", 108, $this->Translate("PTZ-Preset") . " 8", "", 0x00ff00);
+                        IPS_SetVariableProfileAssociation("BlueIris.Preset", 109, $this->Translate("PTZ-Preset") . " 9", "", 0x00ff00);
+                        IPS_SetVariableProfileAssociation("BlueIris.Preset", 110, $this->Translate("PTZ-Preset") . " 10", "", 0x00ff00);
+                        IPS_SetVariableProfileAssociation("BlueIris.Preset", 111, $this->Translate("PTZ-Preset") . " 11", "", 0x00ff00);
+                        IPS_SetVariableProfileAssociation("BlueIris.Preset", 112, $this->Translate("PTZ-Preset") . " 12", "", 0x00ff00);
+                        IPS_SetVariableProfileAssociation("BlueIris.Preset", 113, $this->Translate("PTZ-Preset") . " 13", "", 0x00ff00);
+                        IPS_SetVariableProfileAssociation("BlueIris.Preset", 114, $this->Translate("PTZ-Preset") . " 14", "", 0x00ff00);
+                        IPS_SetVariableProfileAssociation("BlueIris.Preset", 115, $this->Translate("PTZ-Preset") . " 15", "", 0x00ff00);
+                        IPS_SetVariableProfileAssociation("BlueIris.Preset", 116, $this->Translate("PTZ-Preset") . " 16", "", 0x00ff00);
+                        IPS_SetVariableProfileAssociation("BlueIris.Preset", 117, $this->Translate("PTZ-Preset") . " 17", "", 0x00ff00);
+                        IPS_SetVariableProfileAssociation("BlueIris.Preset", 118, $this->Translate("PTZ-Preset") . " 18", "", 0x00ff00);
+                        IPS_SetVariableProfileAssociation("BlueIris.Preset", 119, $this->Translate("PTZ-Preset") . " 19", "", 0x00ff00);
+                        IPS_SetVariableProfileAssociation("BlueIris.Preset", 120, $this->Translate("PTZ-Preset") . " 20", "", 0x00ff00);
+                    }
+                    if (!IPS_VariableProfileExists("BlueIris.Move")) {
+                        IPS_CreateVariableProfile("BlueIris.Move", 1);
+                        IPS_SetVariableProfileValues("BlueIris.Move", -1, 1, 1);
+                    }
 
-            if($this->ReadPropertyBoolean("PTZ")){
-                if (!IPS_VariableProfileExists("BlueIris.Preset")){
-                    IPS_CreateVariableProfile("BlueIris.Preset", 1);
-                    IPS_SetVariableProfileAssociation("BlueIris.Preset", 101, $this->Translate("PTZ-Preset")." 1", "", 0x00ff00);
-                    IPS_SetVariableProfileAssociation("BlueIris.Preset", 102, $this->Translate("PTZ-Preset")." 2", "", 0x00ff00);
-                    IPS_SetVariableProfileAssociation("BlueIris.Preset", 103, $this->Translate("PTZ-Preset")." 3", "", 0x00ff00);
-                    IPS_SetVariableProfileAssociation("BlueIris.Preset", 104, $this->Translate("PTZ-Preset")." 4", "", 0x00ff00);
-                    IPS_SetVariableProfileAssociation("BlueIris.Preset", 105, $this->Translate("PTZ-Preset")." 5", "", 0x00ff00);
-                    IPS_SetVariableProfileAssociation("BlueIris.Preset", 106, $this->Translate("PTZ-Preset")." 6", "", 0x00ff00);
-                    IPS_SetVariableProfileAssociation("BlueIris.Preset", 107, $this->Translate("PTZ-Preset")." 7", "", 0x00ff00);
-                    IPS_SetVariableProfileAssociation("BlueIris.Preset", 108, $this->Translate("PTZ-Preset")." 8", "", 0x00ff00);
-                    IPS_SetVariableProfileAssociation("BlueIris.Preset", 109, $this->Translate("PTZ-Preset")." 9", "", 0x00ff00);
-                    IPS_SetVariableProfileAssociation("BlueIris.Preset", 110, $this->Translate("PTZ-Preset")." 10", "", 0x00ff00);
-                    IPS_SetVariableProfileAssociation("BlueIris.Preset", 111, $this->Translate("PTZ-Preset")." 11", "", 0x00ff00);
-                    IPS_SetVariableProfileAssociation("BlueIris.Preset", 112, $this->Translate("PTZ-Preset")." 12", "", 0x00ff00);
-                    IPS_SetVariableProfileAssociation("BlueIris.Preset", 113, $this->Translate("PTZ-Preset")." 13", "", 0x00ff00);
-                    IPS_SetVariableProfileAssociation("BlueIris.Preset", 114, $this->Translate("PTZ-Preset")." 14", "", 0x00ff00);
-                    IPS_SetVariableProfileAssociation("BlueIris.Preset", 115, $this->Translate("PTZ-Preset")." 15", "", 0x00ff00);
-                    IPS_SetVariableProfileAssociation("BlueIris.Preset", 116, $this->Translate("PTZ-Preset")." 16", "", 0x00ff00);
-                    IPS_SetVariableProfileAssociation("BlueIris.Preset", 117, $this->Translate("PTZ-Preset")." 17", "", 0x00ff00);
-                    IPS_SetVariableProfileAssociation("BlueIris.Preset", 118, $this->Translate("PTZ-Preset")." 18", "", 0x00ff00);
-                    IPS_SetVariableProfileAssociation("BlueIris.Preset", 119, $this->Translate("PTZ-Preset")." 19", "", 0x00ff00);
-                    IPS_SetVariableProfileAssociation("BlueIris.Preset", 120, $this->Translate("PTZ-Preset")." 20", "", 0x00ff00);
+                    $this->RegisterVariableInteger("PTZPreset", $this->Translate("PTZ-Preset"), "BlueIris.Preset", 10);
+                    $this->RegisterVariableInteger("PTZMoveLeftRight", $this->Translate("PTZ-Move Left/Right"), "BlueIris.Move", 11);
+                    $this->RegisterVariableInteger("PTZMoveUPDown", $this->Translate("PTZ-Move UP/Down"), "BlueIris.Move", 12);
+                    $this->RegisterVariableInteger("PTZMoveZoom", $this->Translate("PTZ-Move Zoom"), "BlueIris.Move", 13);
+
+                    $this->EnableAction("PTZPreset");
+                    $this->EnableAction("PTZMoveLeftRight");
+                    $this->EnableAction("PTZMoveUPDown");
+                    $this->EnableAction("PTZMoveZoom");
+
+                    if ($this->GetValue("PTZPreset") < 101 || $this->GetValue("PTZPreset") > 120) $this->SetValue("PTZPreset", 101);
                 }
-                if (!IPS_VariableProfileExists("BlueIris.Move")){
-                    IPS_CreateVariableProfile("BlueIris.Move", 1);
-                    IPS_SetVariableProfileValues ("BlueIris.Move", -1, 1, 1);
-                }
-
-                $this->RegisterVariableInteger("PTZPreset",  $this->Translate("PTZ-Preset"), "BlueIris.Preset", 10);
-                $this->RegisterVariableInteger("PTZMoveLeftRight",  $this->Translate("PTZ-Move Left/Right"), "BlueIris.Move", 11);
-                $this->RegisterVariableInteger("PTZMoveUPDown",  $this->Translate("PTZ-Move UP/Down"), "BlueIris.Move", 12);
-                $this->RegisterVariableInteger("PTZMoveZoom",  $this->Translate("PTZ-Move Zoom"), "BlueIris.Move", 13);
-
-                $this->EnableAction("PTZPreset");
-                $this->EnableAction("PTZMoveLeftRight");
-                $this->EnableAction("PTZMoveUPDown");
-                $this->EnableAction("PTZMoveZoom");
-
-                if($this->GetValue("PTZPreset") < 101 || $this->GetValue("PTZPreset") > 120) $this->SetValue("PTZPreset", 101);
             }
 
             if($this->ReadPropertyBoolean("showFPS")){
                 $this->RegisterVariableInteger("FPS",  $this->Translate("FPS"), "", 99);
             }
+
         }
 
         public function RequestAction($Ident, $Value) {
@@ -131,7 +133,6 @@
                     throw new Exception("Invalid Ident");
             }
         }
-
         public function ReceiveData($JSONString)
         {
             $rData = json_decode($JSONString, true);
@@ -148,20 +149,19 @@
 
         private function UpdateConfig($config){
             //$this->SendDebug(__FUNCTION__, json_encode($config), 0);
-            $this->SetValue("isEnabled", $config["isEnabled"]);
-            $this->SetValue("isAlerting", $config["isAlerting"]);
-            $this->SetValue("isMotion", $config["isMotion"]);
-            $this->SetValue("isTriggered", $config["isTriggered"]);
-            $this->SetValue("isRecording", $config["isRecording"]);
-            $this->SetValue("isOnline", $config["isOnline"]);
-            $this->SetValue("isPaused", $config["isPaused"]);
-            $this->SetValue("isNoSignal", $config["isNoSignal"]);
+            if(array_key_exists("isEnabled", $config)) $this->SetValue("isEnabled", $config["isEnabled"]);
+            if(array_key_exists("isAlerting", $config)) $this->SetValue("isAlerting", $config["isAlerting"]);
+            if(array_key_exists("isMotion", $config)) $this->SetValue("isMotion", $config["isMotion"]);
+            if(array_key_exists("isTriggered", $config)) $this->SetValue("isTriggered", $config["isTriggered"]);
+            if(array_key_exists("isRecording", $config)) $this->SetValue("isRecording", $config["isRecording"]);
+            if(array_key_exists("isOnline", $config)) $this->SetValue("isOnline", $config["isOnline"]);
+            if(array_key_exists("isPaused", $config)) $this->SetValue("isPaused", $config["isPaused"]);
+            if(array_key_exists("isNoSignal", $config)) $this->SetValue("isNoSignal", $config["isNoSignal"]);
 
             if($this->ReadPropertyBoolean("showFPS")){
-                $this->SetValue("FPS", $config["FPS"]);
+                if(array_key_exists("FPS", $config)) $this->SetValue("FPS", $config["FPS"]);
             }
         }
-
         private function UpdateCamConfig(){
             $enable = $this->GetValue("isEnabled");
             if($this->GetValue("isPaused")){
@@ -199,13 +199,13 @@
         }
 
         public function AlertList(int $startdate = null, bool $reset = null){
-            $camera = $this->ReadPropertyString("ShortName");
-
             $data = array();
-            $data["camera"] = $camera;
-            if(is_null($camera)) $camera = "index";
+            $data["camera"] = $this->ReadPropertyString("ShortName");
             if(is_null($startdate)) $startdate = 0;
             if(is_null($reset)) $reset = false;
+
+            $data["startdate"] = $startdate;
+            $data["reset"] = $reset;
 
             $sendData = array("cmd" => "AlertList", "data" => $data);
             return $this->SendDataToParent(json_encode([
@@ -214,13 +214,15 @@
             ]));
         }
         public function ClipList(int $startdate = null, int $enddate = null, bool $tiles = null){
-            $camera = $this->ReadPropertyString("ShortName");
-
             $data = array();
-            $data["camera"] = $camera;
+            $data["camera"] = $this->ReadPropertyString("ShortName");
             if(is_null($startdate)) $startdate = 0;
             if(is_null($enddate)) $enddate = time();
             if(is_null($tiles)) $tiles = false;
+
+            $data["startdate"] = $startdate;
+            $data["enddate"] = $enddate;
+            $data["tiles"] = $tiles;
 
             $sendData = array("cmd" => "ClipList","data" => $data);
             return $this->SendDataToParent(json_encode([
@@ -229,10 +231,8 @@
             ]));
         }
         public function PTZ(int $button = 4, int $updown = null){
-            $camera = $this->ReadPropertyString("ShortName");
-
             $data = array();
-            $data["camera"] = $camera;
+            $data["camera"] = $this->ReadPropertyString("ShortName");
             $data["button"] = $button;
             if(is_null($updown)) $updown = 0;
 
@@ -243,10 +243,8 @@
             ]));
         }
         public function Trigger(){
-            $camera = $this->ReadPropertyString("ShortName");
-
             $data = array();
-            $data["camera"] = $camera;
+            $data["camera"] = $this->ReadPropertyString("ShortName");
 
             $sendData = array("cmd" => "Trigger", "data" => $data);
             return $this->SendDataToParent(json_encode([
